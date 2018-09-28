@@ -1,3 +1,8 @@
+epsilon = 1e-10
+
+def nearly_equal(a, b):
+	return abs(a-b) <= epsilon
+
 class Point:
 	"Um ponto de coordenadas (x,y)"
 
@@ -7,7 +12,7 @@ class Point:
 
 	def __eq__ (self, p):
 		"Verifica se dois pontos são iguais"
-		return (self.x, self.y) == (p.x, p.y)
+		return nearly_equal(self.x, p.x) and nearly_equal(self.y, p.y)
 
 	def above (self, l):
 		"Verifica se o ponto está acima da reta"
@@ -38,25 +43,25 @@ class Line:
 
 	def __eq__ (self, l):
 		"Verifica se duas retas são iguais"
-		return (self.m, self.b) == (l.m, l.b)
+		return nearly_equal(self.m, l.m) and nearly_equal(self.b, l.b)
 
 	def __contains__ (self, p):
 		"Verifica se o ponto está contido na reta"
-		return p.y == self.m * p.x + self.b 
+		return nearly_equal(p.y, self.m * p.x + self.b)
 
 	def horizontal (self):
 		"Verifica se a reta é horizontal"
-		return self.m == 0
+		return nearly_equal(self.m, 0)
 
 	def parallel (self, l):
 		"Verifica se duas retas são paralelas"
-		return self.m == l.m
+		return nearly_equal(self.m, l.m)
 
 	def perpendicular (self, l):
 		"Verifica se duas retas são perpendiculares"
 		if self.horizontal() or l.horizontal():
 			return false
-		return -1.0/self.m == l.m
+		return nearly_equal(-1.0, l.m * self.m)
 
 	def intersect (self, l):
 		"Intersecção de duas retas (pode ser nada, um ponto ou uma reta)"
