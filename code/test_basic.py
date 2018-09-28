@@ -1,6 +1,5 @@
-
 import unittest
-from point import * 
+from basic import Point
 
 class TestPoint (unittest.TestCase):
 
