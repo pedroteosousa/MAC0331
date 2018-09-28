@@ -9,14 +9,6 @@ class Point:
 		"Verifica se dois pontos são iguais"
 		return (self.x, self.y) == (p.x, p.y)
 
-	def dual (self):
-		"Reta referente ao dual do ponto em questão"
-		return Line(self.x, -self.y)
-
-	def __contains__ (self, l):
-		"Verifica se o ponto está contido na linha"
-		return self.y == l.m * self.x + l.b 
-
 	def above (self, l):
 		"Verifica se o ponto está acima da reta"
 		return self.y > l.m * self.x + l.b 
@@ -33,6 +25,10 @@ class Point:
 		"Verifica se o ponto está abaixo ou na reta"
 		return not self.above(l);
 
+	def dual (self):
+		"Reta referente ao dual do ponto em questão"
+		return Line(self.x, -self.y)
+
 class Line:
 	"Uma reta não vertical que obedece y=mx+b"
 
@@ -44,9 +40,9 @@ class Line:
 		"Verifica se duas retas são iguais"
 		return (self.m, self.b) == (l.m, l.b)
 
-	def dual (self):
-		"Ponto referente ao dual da reta em questão"
-		return Point(self.m, -self.b)
+	def __contains__ (self, p):
+		"Verifica se o ponto está contido na reta"
+		return p.y == self.m * p.x + self.b 
 
 	def horizontal (self):
 		"Verifica se a reta é horizontal"
@@ -71,4 +67,8 @@ class Line:
 		x = -(self.b - l.b) / (self.m - l.m)
 		y = self.m * x + self.b
 		return Point(x, y)
+
+	def dual (self):
+		"Ponto referente ao dual da reta em questão"
+		return Point(self.m, -self.b)
 
