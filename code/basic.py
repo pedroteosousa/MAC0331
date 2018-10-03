@@ -36,6 +36,18 @@ class Point:
 
 class Line:
 	"Uma reta não vertical que obedece y=mx+b"
+	
+	@classmethod
+	def cmp(self, x, inf = 0):
+		"Retorna uma função que compara as retas no x dado"
+		def cmp_x(l1, l2):
+			if not inf:
+				return (-l1(x), l1.m) < (-l2(x), l2.m)
+			elif inf < 0:
+				return (l1.m, -l1.b) < (l2.m, -l2.b)
+			else:
+				return (-l1.m, l1.b) < (-l2.m, l2.b)
+		return cmp_x
 
 	def __init__ (self, m, b):
 		"Cria uma reta a partir de seus parâmetros"
@@ -48,6 +60,10 @@ class Line:
 	def __contains__ (self, p):
 		"Verifica se o ponto está contido na reta"
 		return nearly_equal(p.y, self.m * p.x + self.b)
+	
+	def __call__ (self, x):
+		"y da reta no ponto x"
+		return self.m * x + self.b
 
 	def horizontal (self):
 		"Verifica se a reta é horizontal"

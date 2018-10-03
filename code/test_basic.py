@@ -34,7 +34,23 @@ class TestPoint (unittest.TestCase):
 		self.assertEqual(d.dual(), Line(-0.5, 2))
 
 class TestLine (unittest.TestCase):
-	
+
+	def test_cmp (self):
+		l = Line(3, 5)
+		g = Line(-4, 2)
+		# x = -inf
+		self.assertFalse(Line.cmp(None, -1)(l, g))
+		self.assertTrue(Line.cmp(None, -1)(g, l))
+		# x = -3/7
+		self.assertFalse(Line.cmp(-3/7)(l, g))
+		self.assertTrue(Line.cmp(-3/7)(g, l))
+		# x = 7
+		self.assertTrue(Line.cmp(7)(l, g))
+		self.assertFalse(Line.cmp(7)(g, l))
+		# x = +inf
+		self.assertTrue(Line.cmp(None, 1)(l, g))
+		self.assertFalse(Line.cmp(None, 1)(g, l))
+
 	def test_init (self):
 		val = (5.5, -5)
 		l = Line(*val)
@@ -63,6 +79,11 @@ class TestLine (unittest.TestCase):
 		self.assertFalse(c in x)
 		self.assertFalse(c in y)
 		self.assertTrue (c in z)
+
+	def test_call (self):
+		l = Line(5, 1/3)
+		self.assertAlmostEqual(l(2), 31/3)
+		self.assertAlmostEqual(l(0), 1/3)
 	
 	def test_horizontal (self):
 		l = Line(0, -8)
@@ -110,3 +131,5 @@ class TestLine (unittest.TestCase):
 		p = Point(3.3, -8)
 		self.assertEqual(l.dual(), p)
 
+if __name__ == "__main__":
+	unittest.main()
