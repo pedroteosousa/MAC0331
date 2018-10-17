@@ -1,5 +1,6 @@
 import unittest
 from basic import Point, Line
+from math import inf
 
 class TestPoint (unittest.TestCase):
 	
@@ -39,8 +40,8 @@ class TestLine (unittest.TestCase):
 		l = Line(3, 5)
 		g = Line(-4, 2)
 		# x = -inf
-		self.assertFalse(Line.cmp(None, -1)(l, g))
-		self.assertTrue(Line.cmp(None, -1)(g, l))
+		self.assertFalse(Line.cmp(-inf)(l, g))
+		self.assertTrue(Line.cmp(-inf)(g, l))
 		# x = -3/7
 		self.assertFalse(Line.cmp(-3/7)(l, g))
 		self.assertTrue(Line.cmp(-3/7)(g, l))
@@ -48,8 +49,8 @@ class TestLine (unittest.TestCase):
 		self.assertTrue(Line.cmp(7)(l, g))
 		self.assertFalse(Line.cmp(7)(g, l))
 		# x = +inf
-		self.assertTrue(Line.cmp(None, 1)(l, g))
-		self.assertFalse(Line.cmp(None, 1)(g, l))
+		self.assertTrue(Line.cmp(inf)(l, g))
+		self.assertFalse(Line.cmp(inf)(g, l))
 
 	def test_init (self):
 		val = (5.5, -5)

@@ -1,3 +1,5 @@
+from math import inf
+
 epsilon = 1e-10
 
 def nearly_equal(a, b):
@@ -38,15 +40,14 @@ class Line:
 	"Uma reta não vertical que obedece y=mx+b"
 	
 	@classmethod
-	def cmp(self, x, inf = 0):
+	def cmp(self, x):
 		"Retorna uma função que compara as retas no x dado"
 		def cmp_x(l1, l2):
-			if not inf:
-				return (-l1(x), l1.m) < (-l2(x), l2.m)
-			elif inf < 0:
-				return (l1.m, -l1.b) < (l2.m, -l2.b)
-			else:
+			if x == inf:
 				return (-l1.m, l1.b) < (-l2.m, l2.b)
+			if x == -inf:
+				return (l1.m, -l1.b) < (l2.m, -l2.b)
+			return (-l1(x), l1.m) < (-l2(x), l2.m)
 		return cmp_x
 
 	def __init__ (self, m, b):
