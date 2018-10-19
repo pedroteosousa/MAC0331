@@ -43,11 +43,14 @@ class Line:
 	def cmp(self, x):
 		"Retorna uma função que compara as retas no x dado"
 		def cmp_x(l1, l2):
+			t1, t2 = (0, 0), (0, 0)
 			if x == inf:
-				return (-l1.m, l1.b) < (-l2.m, l2.b)
-			if x == -inf:
-				return (l1.m, -l1.b) < (l2.m, -l2.b)
-			return (-l1(x), l1.m) < (-l2(x), l2.m)
+				t1, t2 = (l1.m, l1.b), (l2.m, l2.b)
+			elif x == -inf:
+				t1, t2 = (-l1.m, -l1.b), (-l2.m, -l2.b)
+			else:
+				t1, t2 = l1(x), l2(x)
+			return -1 if t1 < t2 else 0 if t1 == t2 else 1
 		return cmp_x
 
 	def __init__ (self, m, b):

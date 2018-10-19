@@ -3,7 +3,6 @@ from basic import Point, Line
 from math import inf
 
 class TestPoint (unittest.TestCase):
-	
 	def test_init (self):
 		p = Point(-20.5, 25)
 		self.assertEqual((p.x, p.y), (-20.5, 25))
@@ -35,22 +34,21 @@ class TestPoint (unittest.TestCase):
 		self.assertEqual(d.dual(), Line(-0.5, 2))
 
 class TestLine (unittest.TestCase):
-
 	def test_cmp (self):
 		l = Line(3, 5)
 		g = Line(-4, 2)
 		# x = -inf
-		self.assertFalse(Line.cmp(-inf)(l, g))
-		self.assertTrue(Line.cmp(-inf)(g, l))
+		self.assertLess(Line.cmp(-inf)(l, g), 0)
+		self.assertGreater(Line.cmp(-inf)(g, l), 0)
 		# x = -3/7
-		self.assertFalse(Line.cmp(-3/7)(l, g))
-		self.assertTrue(Line.cmp(-3/7)(g, l))
+		self.assertEqual(Line.cmp(-3/7)(l, g), 0)
+		self.assertEqual(Line.cmp(-3/7)(g, l), 0)
 		# x = 7
-		self.assertTrue(Line.cmp(7)(l, g))
-		self.assertFalse(Line.cmp(7)(g, l))
+		self.assertGreater(Line.cmp(7)(l, g), 0)
+		self.assertLess(Line.cmp(7)(g, l), 0)
 		# x = +inf
-		self.assertTrue(Line.cmp(inf)(l, g))
-		self.assertFalse(Line.cmp(inf)(g, l))
+		self.assertGreater(Line.cmp(inf)(l, g), 0)
+		self.assertLess(Line.cmp(inf)(g, l), 0)
 
 	def test_init (self):
 		val = (5.5, -5)
