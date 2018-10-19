@@ -69,6 +69,10 @@ class Line:
 		"y da reta no ponto x"
 		return self.m * x + self.b
 
+	def __hash__ (self):
+		"Hash da reta"
+		return hash((self.m, self.b))
+
 	def horizontal (self):
 		"Verifica se a reta é horizontal"
 		return nearly_equal(self.m, 0)
@@ -96,4 +100,3 @@ class Line:
 	def dual (self):
 		"Ponto referente ao dual da reta em questão"
 		return Point(self.m, -self.b)
-

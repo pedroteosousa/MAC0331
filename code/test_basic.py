@@ -84,6 +84,10 @@ class TestLine (unittest.TestCase):
 		self.assertAlmostEqual(l(2), 31/3)
 		self.assertAlmostEqual(l(0), 1/3)
 	
+	def test_hash (self):
+		l = Line(-9, 1/3)
+		self.assertEqual(hash(l), hash((l.m, l.b)))
+	
 	def test_horizontal (self):
 		l = Line(0, -8)
 		g = Line(0.00001, -5)
