@@ -41,8 +41,8 @@ class TestLine (unittest.TestCase):
 		self.assertLess(Line.cmp(-inf)(l, g), 0)
 		self.assertGreater(Line.cmp(-inf)(g, l), 0)
 		# x = -3/7
-		self.assertEqual(Line.cmp(-3/7)(l, g), 0)
-		self.assertEqual(Line.cmp(-3/7)(g, l), 0)
+		self.assertEqual(Line.cmp(-3/7)(l, g), -1)
+		self.assertEqual(Line.cmp(-3/7)(g, l), 1)
 		# x = 7
 		self.assertGreater(Line.cmp(7)(l, g), 0)
 		self.assertLess(Line.cmp(7)(g, l), 0)
