@@ -36,5 +36,16 @@ class TestUtils (unittest.TestCase):
         self.assertEqual(utils.level(G, 0, inf), G[2])
         self.assertEqual(utils.level(G, 0, -inf), G[0])
 
+    def test_has_odd_intersections(self):
+        G1, G2 = self.G1, self.G2
+        p1, p2 = len(G1) // 2, len(G2) // 2
+        self.assertTrue(utils.has_odd_intersections(G1, G2, p1, p2, (-inf, inf)))
+        self.assertFalse(utils.has_odd_intersections(G1, G2, p1, p2, (-inf, -1)))
+        self.assertTrue(utils.has_odd_intersections(G1, G2, p1, p2, (-1, inf)))
+        self.assertFalse(utils.has_odd_intersections(G1, G2, p1, p2, (-3, -2)))
+        self.assertTrue(utils.has_odd_intersections(G1, G2, p1, p2, (-1, 0)))
+        self.assertFalse(utils.has_odd_intersections(G1, G2, p1, p2, (-1, -0.7)))
+        self.assertTrue(utils.has_odd_intersections(G1, G2, p1, p2, (-0.7, 0.65)))
+
 if __name__ == "__main__":
 	unittest.main()

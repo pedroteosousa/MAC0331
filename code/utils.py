@@ -75,3 +75,11 @@ def level(G, p, x):
         return level(G_greater, p - (len(G) - len(G_greater)), x)
     else:
         return pivot
+
+def has_odd_intersections(G1, G2, p1, p2, T):
+    "verifica se a quantidade de intersecções entre os níveis p1 e p2 em T é ímpar"
+    l, r = T
+    left = Line.cmp(l)(level(G1, p1, l), level(G2, p2, l))
+    right = Line.cmp(r)(level(G1, p1, r), level(G2, p2, r))
+    return left * right < 0
+
