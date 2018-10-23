@@ -35,8 +35,7 @@ class TestPoint (unittest.TestCase):
 
 class TestLine (unittest.TestCase):
     def test_cmp (self):
-        l = Line(3, 5)
-        g = Line(-4, 2)
+        l, g = Line(3, 5), Line(-4, 2)
         # x = -inf
         self.assertLess(Line.cmp(-inf)(l, g), 0)
         self.assertGreater(Line.cmp(-inf)(g, l), 0)
@@ -49,6 +48,11 @@ class TestLine (unittest.TestCase):
         # x = +inf
         self.assertGreater(Line.cmp(inf)(l, g), 0)
         self.assertLess(Line.cmp(inf)(g, l), 0)
+        
+        # parallel lines
+        l, g = Line(5, 9), Line(5, 5)
+        self.assertEqual(Line.cmp(-inf)(l, g), 1)
+        self.assertEqual(Line.cmp(inf)(l, g), 1)
 
     def test_init (self):
         val = (5.5, -5)
