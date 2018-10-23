@@ -1,5 +1,5 @@
 import unittest
-from basic import Line
+from basic import Line, Point
 from math import inf
 import random
 import utils
@@ -47,5 +47,23 @@ class TestUtils (unittest.TestCase):
         self.assertFalse(utils.has_odd_intersections(G1, G2, p1, p2, (-1, -0.7)))
         self.assertTrue(utils.has_odd_intersections(G1, G2, p1, p2, (-0.7, 0.65)))
 
+    def test_new_interval(self):
+        bound = 2 ** 32
+        rand_coord = lambda : random.randint(-bound, bound)
+        G1, G2 = [], []
+        for i in range(1001):
+            G1.append(Point(rand_coord(), rand_coord()).dual())
+            G2.append(Point(rand_coord(), rand_coord()).dual())
+        p1, p2 = len(G1) // 2, len(G2) // 2
+        
+        T = (-inf, inf)
+        self.assertTrue(utils.has_odd_intersections(G1, G2, p1, p2, T))
+        all_intersec = utils.intersections(G1, T)[0]
+        self.assertGreater(all_intersec, 100)
+        T = utils.new_interval(G1, G2, p1, p2, T)
+        self.assertTrue(utils.has_odd_intersections(G1, G2, p1, p2, T))
+        new_intersec = utils.intersections(G1, T)[0]
+        self.assertLessEqual(32 * new_intersec, all_intersec)
+    
 if __name__ == "__main__":
 	unittest.main()

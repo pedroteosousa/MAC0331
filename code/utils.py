@@ -83,3 +83,15 @@ def has_odd_intersections(G1, G2, p1, p2, T):
     right = Line.cmp(r)(level(G1, p1, r), level(G2, p2, r))
     return left * right < 0
 
+def new_interval(G1, G2, p1, p2, T):
+    "acha um novo intervalo com a propriedade de intersecção ímpar"
+    all_intersections, random_inversion = intersections(G1, T)
+    cur_intersections = all_intersections
+    while 32 * cur_intersections > all_intersections:
+        x = random_inversion[0].intersect(random_inversion[1]).x
+        if has_odd_intersections(G1, G2, p1, p2, (T[0], x)):
+            T = (T[0], x)
+        else:
+            T = (x, T[1])
+        cur_intersections, random_inversion = intersections(G1, T)
+    return T
