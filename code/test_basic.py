@@ -84,9 +84,15 @@ class TestLine (unittest.TestCase):
         self.assertTrue (c in z)
 
     def test_call (self):
-        l = Line(5, 1/3)
+        l, g, h = Line(5, 1/3), Line(-5, 2), Line(0, 7)
         self.assertAlmostEqual(l(2), 31/3)
         self.assertAlmostEqual(l(0), 1/3)
+        self.assertEqual(l(-inf), -inf)
+        self.assertEqual(l(inf), inf)
+        self.assertEqual(g(-inf), inf)
+        self.assertEqual(g(inf), -inf)
+        self.assertEqual(h(-inf), 7)
+        self.assertEqual(h(inf), 7)
 
     def test_hash (self):
         l = Line(-9, 1/3)

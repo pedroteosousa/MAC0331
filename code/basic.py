@@ -71,6 +71,10 @@ class Line:
 
     def __call__ (self, x):
         "y da reta no ponto x"
+        if x == inf or x == -inf:
+            if self.m == 0:
+                return self.b
+            return x if self.m > 0 else -x
         return self.m * x + self.b
 
     def __hash__ (self):
@@ -108,4 +112,3 @@ class Line:
     def __repr__ (self):
         "Representação da reta como uma string"
         return "Line" + str((self.m, self.b))
-
