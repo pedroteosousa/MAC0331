@@ -1,4 +1,6 @@
 # MAC0331
+[![Build Status](https://travis-ci.org/pedroteosousa/MAC0331.svg?branch=master)](https://travis-ci.org/pedroteosousa/MAC0331)
+
 Trabalho de Geometria Computacional
 
 Rode `git submodule update --init --recursive` para baixar o repositório `geocomp-py-framework`
