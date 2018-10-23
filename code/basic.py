@@ -36,6 +36,10 @@ class Point:
         "Reta referente ao dual do ponto em questão"
         return Line(self.x, -self.y)
 
+    def __repr__ (self):
+        "Representação do ponto como uma string"
+        return "Point" + str((self.x, self.y))
+
 class Line:
     "Uma reta não vertical que obedece y=mx+b"
 
@@ -100,4 +104,8 @@ class Line:
     def dual (self):
         "Ponto referente ao dual da reta em questão"
         return Point(self.m, -self.b)
+
+    def __repr__ (self):
+        "Representação da reta como uma string"
+        return "Line" + str((self.m, self.b))
 
