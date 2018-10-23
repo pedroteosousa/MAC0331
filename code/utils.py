@@ -48,9 +48,30 @@ def intersections(G, T):
     R = sorted(G, key=functools.cmp_to_key(Line.cmp(T[1])))
     for i, l in enumerate(L):
         bijection[l] = i
+
     v = [bijection[l] for l in R]
     count, inv = inversions(v)
     v = [bijection[l] for l in R]
     count, inv = inversions(v, randint(1, max(1, count)))
     inv = inv if not inv else (L[inv[0]], L[inv[1]])
     return count, inv
+
+def level(G, p, x):
+    "p-ésimo elemento de G em x, se G estivesse ordenado"
+
+    pivot = G[randint(0, len(G) - 1)]
+    G_less = []
+    G_greater = []
+
+    for i in G:
+        if Line.cmp(x)(i, pivot) < 0:
+            G_less.append(i)
+        elif Line.cmp(x)(i, pivot) > 0: 
+            G_greater.append(i)
+
+    if len(G_less) > p:
+        return level(G_less, p, x)
+    elif  len(G) - len(G_greater) <=  p:
+        return level(G_greater, p - (len(G) - len(G_greater)), x)
+    else:
+        return pivot
