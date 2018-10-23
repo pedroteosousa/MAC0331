@@ -1,46 +1,56 @@
 import functools
 from basic import Line
+from random import randint
 
-def count_intersections(G, T):
-    "Número de intersecções no intervalo T em O(n log n)"
+def intersections(G, T):
+    "Número de intersecções e uma intersecção aleatória no intervalo T em O(n log n)"
 
-    def inversions(v):
-        "Número de inversões em v"
+    def inversions(v, p = 0):
+        "Número de inversões e a p-ésima inversão de v"
 
-        def merge(l, r):
-            "Combina duas listas ordenadas e conta as inversões"
+        def merge(l, r, p):
+            "Combina duas listas ordenadas, retorna numéro de inversões e a p-ésima inversão do merge"
 
             nv = []
-            i, j, inv = 0, 0, 0
+            i, j, ni, inv = 0, 0, 0, None
             while i < len(l) and j < len(r):
                 if l[i] <= r[j]:
                     nv.append(l[i])
                     i += 1
                 else:
                     nv.append(r[j])
+                    diff = len(l) - i
+                    if ni < p and ni + diff >= p:
+                        pos = p - ni
+                        inv = (r[j], l[i + pos - 1])
+                    ni += diff
                     j += 1
-                    inv += len(l) - i
             nv += l[i:]
             nv += r[j:]
-            return nv, inv
+            return nv, ni, inv
         
-        def sort(v):
-            "Ordena uma lista v e conta suas inversões"
+        def sort(v, p):
+            "Ordena uma lista v, retorna número de inversões e a p-ésima inversão de v"
             
             if len(v) <= 1:
-                return v, 0
+                return v, 0, None
             mid = len(v) // 2
-            l, il = sort(v[:mid])
-            r, ir = sort(v[mid:])
-            nv, inv = merge(l, r)
-            return nv, inv + il + ir
+            l, ni_l, i_l = sort(v[:mid], p)
+            r, ni_r, i_r = sort(v[mid:], p - ni_l)
+            nv, ni_m, i_m = merge(l, r, p - ni_l - ni_r)
+            return nv, ni_m + ni_l + ni_r, i_m or i_l or i_r
         
-        v, inv = sort(v)
-        return inv
+        v, ni, inv = sort(v, p)
+        return ni, inv
     
     bijection = {}
     L = sorted(G, key=functools.cmp_to_key(Line.cmp(T[0])))
+    R = sorted(G, key=functools.cmp_to_key(Line.cmp(T[1])))
     for i, l in enumerate(L):
         bijection[l] = i
-    v = [bijection[l] for l in sorted(G, key=functools.cmp_to_key(Line.cmp(T[1])))]
-    return inversions(v)
+    v = [bijection[l] for l in R]
+    count, inv = inversions(v)
+    v = [bijection[l] for l in R]
+    count, inv = inversions(v, randint(1, max(1, count)))
+    inv = inv if not inv else (L[inv[0]], L[inv[1]])
+    return count, inv
