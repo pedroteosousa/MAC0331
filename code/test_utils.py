@@ -64,6 +64,15 @@ class TestUtils (unittest.TestCase):
         self.assertTrue(utils.has_odd_intersections(G1, G2, p1, p2, T))
         new_intersec = utils.intersections(G1, T)[0]
         self.assertLessEqual(32 * new_intersec, all_intersec)
-    
+
+    def test_verify_solution(self):
+        P1 = [l.dual() for l in self.G1]
+        P2 = [l.dual() for l in self.G2]
+        solution = self.G1[2].intersect(self.G2[3]).dual()
+        self.assertTrue(utils.verify_solution(P1, P2, solution))
+        wrong = Line(solution.m * 0.99999, solution.b * 0.99999)
+        self.assertFalse(utils.verify_solution(P1, P2, wrong))
+
 if __name__ == "__main__":
-	unittest.main()
+    unittest.main()
+

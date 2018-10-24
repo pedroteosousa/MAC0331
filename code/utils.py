@@ -95,3 +95,20 @@ def new_interval(G1, G2, p1, p2, T):
             T = (x, T[1])
         cur_intersections, random_inversion = intersections(G1, T)
     return T
+
+def verify_solution(P1, P2, l):
+    "verifica se a reta l resolve o problema para os conjuntos de pontos P1 e P2"
+
+    count = [[0, 0], [0, 0]]
+    P = [P1, P2]
+    for i in range(2):
+        for p in P[i]:
+            if p.above(l):
+                count[i][0] += 1
+            if p.under(l):
+                count[i][1]
+        if 2 * max(count[i][0], count[i][1]) > len(P[i]):
+            return False
+
+    return True
+
