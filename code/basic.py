@@ -112,3 +112,4 @@ class Line:
     def __repr__ (self):
         "Representação da reta como uma string"
         return "Line" + str((self.m, self.b))
+

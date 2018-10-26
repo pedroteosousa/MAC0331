@@ -28,10 +28,10 @@ def intersections(G, T):
             nv += l[i:]
             nv += r[j:]
             return nv, ni, inv
-        
+
         def sort(v, p):
             "Ordena uma lista v, retorna número de inversões e a p-ésima inversão de v"
-            
+
             if len(v) <= 1:
                 return v, 0, None
             mid = len(v) // 2
@@ -42,7 +42,7 @@ def intersections(G, T):
         
         v, ni, inv = sort(v, p)
         return ni, inv
-    
+
     bijection = {}
     L = sorted(G, key=functools.cmp_to_key(Line.cmp(T[0])))
     R = sorted(G, key=functools.cmp_to_key(Line.cmp(T[1])))
@@ -78,6 +78,7 @@ def level(G, p, x):
 
 def has_odd_intersections(G1, G2, p1, p2, T):
     "verifica se a quantidade de intersecções entre os níveis p1 e p2 em T é ímpar"
+
     l, r = T
     left = Line.cmp(l)(level(G1, p1, l), level(G2, p2, l))
     right = Line.cmp(r)(level(G1, p1, r), level(G2, p2, r))
@@ -85,6 +86,7 @@ def has_odd_intersections(G1, G2, p1, p2, T):
 
 def new_interval(G1, G2, p1, p2, T):
     "acha um novo intervalo com a propriedade de intersecção ímpar"
+
     all_intersections, random_inversion = intersections(G1, T)
     cur_intersections = all_intersections
     while 32 * cur_intersections > all_intersections:
