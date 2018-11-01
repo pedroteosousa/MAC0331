@@ -116,7 +116,7 @@ def verify_solution(P1, P2, l):
             if p.above(l):
                 count[i][0] += 1
             if p.under(l):
-                count[i][1]
+                count[i][1] += 1
         if 2 * max(count[i][0], count[i][1]) > len(P[i]):
             return False
 
