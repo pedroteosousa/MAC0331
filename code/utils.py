@@ -98,6 +98,14 @@ def new_interval(G1, G2, p1, p2, T):
         cur_intersections, random_inversion = intersections(G1, T)
     return T
 
+def new_trapezoid(G, p, T):
+    off = len(G) // 8
+    dL1 = level(G, p - off, T[0])
+    dL2 = level(G, p + off, T[0])
+    dR1 = level(G, p - off, T[1])
+    dR2 = level(G, p + off, T[1])
+    return (dL1, dL2, dR1, dR2)
+
 def verify_solution(P1, P2, l):
     "verifica se a reta l resolve o problema para os conjuntos de pontos P1 e P2"
 
