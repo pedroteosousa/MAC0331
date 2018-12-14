@@ -1,6 +1,7 @@
 import functools
 from basic import Line, Point
 from random import randint
+from math import inf
 
 def intersections(G, T):
     "Número de intersecções e uma intersecção aleatória no intervalo T em O(n log n)"
@@ -159,3 +160,33 @@ def discard_lines(G, p, t):
             b += 1
     return nG, p - b
 
+def recursive_ham_sandwich(G1, G2, p1, p2, T):
+    if len(G1) < len(G2):
+        return hamSandwich(G2, G1, p2, p1, T)
+    T, is_base = new_interval(G1, G2, p1, p2, T)
+
+    if is_base:
+        valid_answers = []
+        for g in G1:
+            for h in G2:
+                p = g.intersect(h)
+                if p and isinstance(p.dual(), Line):
+                    valid_answers.append(p.dual())
+        return valid_answers
+
+    t = new_trapezoid(G1, p1, T)
+    G1, p1 = discard_lines(G1, p1, t)
+    G2, p2 = discard_lines(G2, p2, t)
+
+    return recursive_ham_sandwich(G1, G2, p1, p2, T)
+
+def ham_sandwich(P1, P2):
+    G1 = P1[1:] if len(P1) % 2 else P1
+    G2 = P2[1:] if len(P2) % 2 else P2
+    G1 = [p.dual() for p in G1]
+    G2 = [p.dual() for p in G2]
+    valid_answers = recursive_ham_sandwich(G1, G2, len(G1)//2, len(G2)//2, (-inf, inf))
+    for l in valid_answers:
+        if verify_solution(P1, P2, l):
+            return l
+    return None
