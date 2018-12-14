@@ -71,7 +71,7 @@ def level(G, p, x):
 
     if len(G_less) > p:
         return level(G_less, p, x)
-    elif  len(G) - len(G_greater) <=  p:
+    elif len(G) - len(G_greater) <=  p:
         return level(G_greater, p - (len(G) - len(G_greater)), x)
     else:
         return pivot
