@@ -58,9 +58,9 @@ class TestUtils (unittest.TestCase):
         
         T = (-inf, inf)
         self.assertTrue(utils.has_odd_intersections(G1, G2, p1, p2, T))
-        all_intersec = utils.intersections(G1, T)[0]
+        all_intersec = utils.max_intersections(G1)
         self.assertGreater(all_intersec, 100)
-        T = utils.new_interval(G1, G2, p1, p2, T)
+        T, is_base = utils.new_interval(G1, G2, p1, p2, T)
         self.assertTrue(utils.has_odd_intersections(G1, G2, p1, p2, T))
         new_intersec = utils.intersections(G1, T)[0]
         self.assertLessEqual(32 * new_intersec, all_intersec)
