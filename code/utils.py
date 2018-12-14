@@ -59,6 +59,8 @@ def intersections(G, T):
 def level(G, p, x):
     "p-ésimo elemento de G em x, se G estivesse ordenado"
 
+    if len(G) == 1:
+        return G[0]
     pivot = G[randint(0, len(G) - 1)]
     G_less = []
     G_greater = []
