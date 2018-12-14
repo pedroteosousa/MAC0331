@@ -105,3 +105,22 @@ def verify_solution(P1, P2, l):
 
     return True
 
+def max_intersections(G):
+    "conta a maior quantidade de intersecções possíveis no nível G"
+
+    return (len(G) * (len(G) - 1)) // 2
+
+def new_interval(G1, G2, p1, p2, T):
+    "retorna um novo intervalo com a propriedade de intersecção ímpar e se a quantidade de retas é pequena o suficiente para um testa tudo"
+
+    cur_intersections, random_inversion = intersections(G1, T)
+    is_base = (max_intersections(G1) <= 32)
+    while 32 * cur_intersections > max_intersections(G1) and not is_base:
+        x = random_inversion[0].intersect(random_inversion[1]).x
+        if has_odd_intersections(G1, G2, p1, p2, (T[0], x)):
+            T = (T[0], x)
+        else:
+            T = (x, T[1])
+        cur_intersections, random_inversion = intersections(G1, T)
+    return T, is_base
+
