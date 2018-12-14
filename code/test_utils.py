@@ -73,5 +73,21 @@ class TestUtils (unittest.TestCase):
         wrong = Line(solution.m * 0.99999, solution.b * 0.99999)
         self.assertFalse(utils.verify_solution(P1, P2, wrong))
 
+    def test_ham_sanduich(self):
+        P1 = [l.dual() for l in self.G1]
+        P2 = [l.dual() for l in self.G2]
+        l = utils.ham_sandwich(P1, P2)
+        self.assertTrue(utils.verify_solution(P1, P2, l))
+
+        bound = 2 ** 32
+        rand_coord = lambda : random.randint(-bound, bound)
+        P1, P2 = [], []
+        for i in range(1001):
+            P1.append(Point(rand_coord(), rand_coord()))
+            P2.append(Point(rand_coord(), rand_coord()))
+        
+        l = utils.ham_sandwich(P1, P2)
+        self.assertTrue(utils.verify_solution(P1, P2, l))
+
 if __name__ == "__main__":
     unittest.main()
