@@ -1,5 +1,5 @@
 import functools
-from basic import Line
+from basic import Line, Point
 from random import randint
 
 def intersections(G, T):
@@ -123,4 +123,14 @@ def new_interval(G1, G2, p1, p2, T):
             T = (x, T[1])
         cur_intersections, random_inversion = intersections(G1, T)
     return T, is_base
+
+def new_trapezoid(G, p, T):
+    "retorna um trapezoide para eliminaçāo de retas"
+
+    off = len(G) // 8
+    dL1 = Point(T[0], level(G, p - off, T[0])(T[0]))
+    dL2 = Point(T[0], level(G, p + off, T[0])(T[0]))
+    dR1 = Point(T[1], level(G, p - off, T[1])(T[1]))
+    dR2 = Point(T[1], level(G, p + off, T[1])(T[1]))
+    return (dL1, dL2, dR2, dR1)
 
