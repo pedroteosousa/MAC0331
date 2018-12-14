@@ -134,3 +134,28 @@ def new_trapezoid(G, p, T):
     dR2 = Point(T[1], level(G, p + off, T[1])(T[1]))
     return (dL1, dL2, dR2, dR1)
 
+def intersects_trapezoid(l, t):
+    "checa se a reta l intersecta o trapezoide t e se l está abaixo de t"
+
+    is_under, is_above = True, True
+
+    for i in range(4):
+        if t[i].under_in(l):
+            is_under = False
+
+        if t[i].above_in(l):
+            is_above = False
+    
+    return is_under, is_above
+
+def discard_lines(G, p, t):
+    nG = []
+    b = 0
+    for l in G:
+        is_under, is_above = intersects_trapezoid(l, t)
+        if not (is_under or is_above):
+            nG.append(l)
+        elif is_under:
+            b += 1
+    return nG, p - b
+
