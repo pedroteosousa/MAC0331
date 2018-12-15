@@ -1,6 +1,6 @@
 from math import inf
 
-epsilon = 1e-10
+epsilon = 1e-3
 
 def nearly_equal(a, b):
     return abs(a-b) <= epsilon
@@ -18,7 +18,7 @@ class Point:
 
     def above (self, l):
         "Verifica se o ponto está acima da reta"
-        return self.y > l.m * self.x + l.b 
+        return self.y > l.m * self.x + l.b - epsilon
 
     def above_in (self, l):
         "Verifica se o ponto está acima ou na reta"
