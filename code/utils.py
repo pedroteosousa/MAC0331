@@ -161,7 +161,7 @@ def discard_lines(G, p, t):
 
 def recursive_ham_sandwich(G1, G2, p1, p2, T):
     if len(G1) < len(G2):
-        return hamSandwich(G2, G1, p2, p1, T)
+        return recursive_ham_sandwich(G2, G1, p2, p1, T)
     T, is_base = new_interval(G1, G2, p1, p2, T)
 
     if is_base:
