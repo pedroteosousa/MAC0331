@@ -180,8 +180,8 @@ def recursive_ham_sandwich(G1, G2, p1, p2, T):
     return recursive_ham_sandwich(G1, G2, p1, p2, T)
 
 def ham_sandwich(P1, P2):
-    G1 = P1[1:] if len(P1) % 2 else P1
-    G2 = P2[1:] if len(P2) % 2 else P2
+    G1 = P1 if len(P1) % 2 else P1[1:]
+    G2 = P2 if len(P2) % 2 else P2[1:]
     G1 = [p.dual() for p in G1]
     G2 = [p.dual() for p in G2]
     valid_answers = recursive_ham_sandwich(G1, G2, len(G1)//2, len(G2)//2, (-inf, inf))
