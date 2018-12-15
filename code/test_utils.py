@@ -27,7 +27,6 @@ class TestUtils (unittest.TestCase):
         self.assertEqual(inv, (G[1], G[5]))
 
     def test_level(self):
-        G = [Line(2, 7), Line(-1, -2), Line(-5, 0), Line(-0.2, 1), Line(-0.5, 3)]
         G = self.G1
         self.assertEqual(utils.level(G, 1, -10), G[3])
         self.assertEqual(utils.level(G, 2, -10), G[6])
