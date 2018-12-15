@@ -70,7 +70,7 @@ class TestUtils (unittest.TestCase):
         P2 = [l.dual() for l in self.G2]
         solution = self.G1[2].intersect(self.G2[3]).dual()
         self.assertTrue(utils.verify_solution(P1, P2, solution))
-        wrong = Line(solution.m * 0.99999, solution.b * 0.99999)
+        wrong = Line(solution.m * 0.99, solution.b * 0.99)
         self.assertFalse(utils.verify_solution(P1, P2, wrong))
 
     def test_ham_sanduich(self):

@@ -100,7 +100,7 @@ class TestLine (unittest.TestCase):
 
     def test_horizontal (self):
         l = Line(0, -8)
-        g = Line(0.00001, -5)
+        g = Line(0.01, -5)
         self.assertTrue(l.horizontal())
         self.assertFalse(g.horizontal())
 
