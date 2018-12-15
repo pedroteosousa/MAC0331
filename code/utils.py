@@ -12,36 +12,49 @@ def intersections(G, T):
         def merge(l, r, p):
             "Combina duas listas ordenadas, retorna numéro de inversões e a p-ésima inversão do merge"
 
-            nv = []
-            i, j, ni, inv = 0, 0, 0, None
-            while i < len(l) and j < len(r):
-                if l[i] <= r[j]:
-                    nv.append(l[i])
+            ll, rl = l
+            lr, rr = r
+            n, nv = 0, [0] * (rr + rl - lr - ll + 2)
+            i, j, ni, inv = ll, lr, 0, None
+            while i <= rl and j <= rr:
+                if v[i] <= v[j]:
+                    nv[n] = v[i]
+                    n += 1
                     i += 1
                 else:
-                    nv.append(r[j])
-                    diff = len(l) - i
+                    nv[n] = v[j]
+                    n += 1
+                    diff = (rl - ll + 1) - (i - ll)
                     if ni < p and ni + diff >= p:
                         pos = p - ni
-                        inv = (r[j], l[i + pos - 1])
+                        inv = (v[j], v[i + pos - 1])
                     ni += diff
                     j += 1
-            nv += l[i:]
-            nv += r[j:]
-            return nv, ni, inv
+            while i <= rl:
+                nv[n] = v[i]
+                n += 1
+                i += 1
+            while j <= rr:
+                nv[n] = v[j]
+                n += 1
+                j += 1
+            for i in range(ll, rr + 1):
+                v[i] = nv[i - ll]
+            return ni, inv
 
-        def sort(v, p):
+        def sort(t, p):
             "Ordena uma lista v, retorna número de inversões e a p-ésima inversão de v"
 
-            if len(v) <= 1:
-                return v, 0, None
-            mid = len(v) // 2
-            l, ni_l, i_l = sort(v[:mid], p)
-            r, ni_r, i_r = sort(v[mid:], p - ni_l)
-            nv, ni_m, i_m = merge(l, r, p - ni_l - ni_r)
-            return nv, ni_m + ni_l + ni_r, i_m or i_l or i_r
+            l, r = t
+            if r - l + 1 <= 1:
+                return 0, None
+            mid = (l + r + 1) // 2
+            ni_l, i_l = sort((l, mid - 1), p)
+            ni_r, i_r = sort((mid, r), p - ni_l)
+            ni_m, i_m = merge((l, mid - 1), (mid, r), p - ni_l - ni_r)
+            return ni_m + ni_l + ni_r, i_m or i_l or i_r
         
-        v, ni, inv = sort(v, p)
+        ni, inv = sort((0, len(v) - 1), p)
         return ni, inv
 
     bijection = {}
