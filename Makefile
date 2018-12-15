@@ -1,5 +1,5 @@
-make test:
+test:
 	python3 -m unittest discover code
 
-make plot:
+plot:
 	python3 code/plot.py
