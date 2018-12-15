@@ -73,24 +73,7 @@ def intersections(G, T):
 def level(G, p, x):
     "p-ésimo elemento de G em x, se G estivesse ordenado"
 
-    if len(G) == 1:
-        return G[0]
-    pivot = G[randint(0, len(G) - 1)]
-    G_less = []
-    G_greater = []
-
-    for i in G:
-        if Line.cmp(x)(i, pivot) < 0:
-            G_less.append(i)
-        elif Line.cmp(x)(i, pivot) > 0: 
-            G_greater.append(i)
-
-    if len(G_less) > p:
-        return level(G_less, p, x)
-    elif len(G) - len(G_greater) <=  p:
-        return level(G_greater, p - (len(G) - len(G_greater)), x)
-    else:
-        return pivot
+    return sorted(G, key=functools.cmp_to_key(Line.cmp(x)))[p - 1]
 
 def has_odd_intersections(G1, G2, p1, p2, T):
     "verifica se a quantidade de intersecções entre os níveis p1 e p2 em T é ímpar"
