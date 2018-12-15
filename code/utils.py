@@ -73,7 +73,7 @@ def intersections(G, T):
 def level(G, p, x):
     "p-ésimo elemento de G em x, se G estivesse ordenado"
 
-    return sorted(G, key=functools.cmp_to_key(Line.cmp(x)))[p - 1]
+    return sorted(G, key=functools.cmp_to_key(Line.cmp(x)))[p]
 
 def has_odd_intersections(G1, G2, p1, p2, T):
     "verifica se a quantidade de intersecções entre os níveis p1 e p2 em T é ímpar"
