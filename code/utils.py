@@ -170,6 +170,7 @@ def recursive_ham_sandwich(G1, G2, p1, p2, T):
                 p = g.intersect(h)
                 if p and isinstance(p.dual(), Line):
                     valid_answers.append(p.dual())
+        delete_lines(G1+G2)
         return valid_answers
 
     t = new_trapezoid(G1, p1, T)
@@ -202,10 +203,27 @@ def points_to_lines(P, color):
         control.sleep()
     return G
 
+def delete_lines(G):
+    control.freeze_update()
+    for g in G:
+        control.plot_delete(g.plot_id)
+    control.sleep()
+    control.thaw_update()
+
+def plot_points(P, color):
+    control.freeze_update()
+    for p in P:
+        p.tk.hilight(color)
+    control.sleep()
+    control.thaw_update()
+
+
 def partition_and_run(p):
     P = [Point.from_framework_point(i) for i in p]
     half = len(P) // 2
     P1, P2 = P[:half+1], P[half+1:]
 
     line = ham_sandwich(P1, P2)
+    plot_points(P1,'red')
+    plot_points(P2,'blue')
     control.plot_line(0, line(0), 1, line(1), 'green')
