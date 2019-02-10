@@ -1,7 +1,9 @@
 import functools
-from basic import Line, Point
+from .basic import Point, Line
 from random import randint
 from math import inf
+
+from geocomp.common import control
 
 def intersections(G, T):
     "Número de intersecções e uma intersecção aleatória no intervalo T em O(n log n)"
@@ -185,3 +187,14 @@ def ham_sandwich(P1, P2):
         if verify_solution(P1, P2, l):
             return l
     return None
+
+def partition_and_run(p):
+    P = [Point.from_framework_point(i) for i in p]
+    half = len(P) // 2
+    P1, P2 = P[:half+1], P[half+1:]
+    for i in P1:
+        i.tk.hilight('red')
+    for i in P2:
+        i.tk.hilight('blue')
+    line = ham_sandwich(P1, P2)
+    control.plot_line(0, line(0), 1, line(1), 'green')

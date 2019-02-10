@@ -12,6 +12,12 @@ class Point:
         "Cria um ponto a partir de suas coordenadas"
         self.x, self.y = x, y
 
+    @classmethod
+    def from_framework_point(_, point):
+        p = Point(point.x, point.y)
+        p.tk = point
+        return p
+
     def __eq__ (self, p):
         "Verifica se dois pontos são iguais"
         return nearly_equal(self.x, p.x) and nearly_equal(self.y, p.y)
