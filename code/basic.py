@@ -20,7 +20,7 @@ class Point:
 
     def __eq__ (self, p):
         "Verifica se dois pontos são iguais"
-        return nearly_equal(self.x, p.x) and nearly_equal(self.y, p.y)
+        return isinstance(p, Point) and nearly_equal(self.x, p.x) and nearly_equal(self.y, p.y)
 
     def above (self, l):
         "Verifica se o ponto está acima da reta"
@@ -69,7 +69,7 @@ class Line:
 
     def __eq__ (self, l):
         "Verifica se duas retas são iguais"
-        return nearly_equal(self.m, l.m) and nearly_equal(self.b, l.b)
+        return isinstance(l, Line) and nearly_equal(self.m, l.m) and nearly_equal(self.b, l.b)
 
     def __contains__ (self, p):
         "Verifica se o ponto está contido na reta"

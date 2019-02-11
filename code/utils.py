@@ -227,9 +227,37 @@ def plot_points(P, color):
     control.sleep()
     control.thaw_update()
 
+def get_canvas_sides(P):
+    G = [p.dual() for p in P]
+    C = [P[0].x, P[0].x, P[0].y, P[0].y]
+    for i in range(0, len(G)):
+        for j in range(i+1, len(G)):
+            p = G[i].intersect(G[j])
+            if not isinstance(p, Point):
+                p = P[i]
+            else:
+                if C[0] > min(p.x, P[i].x):
+                    C[0] = min(p.x, P[i].x)
+                if C[1] < max(p.x, P[i].x):
+                    C[1] = max(p.x, P[i].x)
+                if C[2] > min(p.y, P[i].y):
+                    C[2] = min(p.y, P[i].y)
+                if C[3] < max(p.y, P[i].y):
+                    C[3] = max(p.y, P[i].y)
+    perc = 0.02
+    difx = (C[1] - C[0]) * perc
+    dify = (C[3] - C[2]) * perc
+    return [C[0] - difx, C[1] + difx, C[2] - dify, C[3] + dify]
 
 def partition_and_run(p):
     P = [Point.from_framework_point(i) for i in p]
+
+    # resize canvas to fit line intersections
+    from geocomp.common.guicontrol import gui
+    gui.config_canvas(*get_canvas_sides(P))
+    control.sleep()
+    control.freeze_update()
+
     half = len(P) // 2
     P1, P2 = P[:half+1], P[half+1:]
 
