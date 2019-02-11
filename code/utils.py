@@ -135,7 +135,6 @@ def new_trapezoid(G, p, T):
 
 def intersects_trapezoid(l, t):
     "checa se a reta l intersecta o trapezoide t e se l está abaixo de t"
-
     is_under, is_above = True, True
 
     for i in range(4):
@@ -151,11 +150,22 @@ def discard_lines(G, p, t):
     nG = []
     b = 0
     for l in G:
+        control.freeze_update()
+        new_plot_id = control.plot_line(0, l(0), 1, l(1), 'cyan')
+        control.sleep()
+        control.thaw_update()
+        control.freeze_update()
         is_under, is_above = intersects_trapezoid(l, t)
         if not (is_under or is_above):
             nG.append(l)
         elif is_under:
             b += 1
+        if (is_under or is_above):
+            delete_lines([l])
+        control.plot_delete(new_plot_id)
+        control.sleep()
+        control.thaw_update()
+
     return nG, p - b
 
 def recursive_ham_sandwich(G1, G2, p1, p2, T):
