@@ -252,9 +252,6 @@ def get_canvas_sides(P):
 def partition_and_run(p):
     P = [Point.from_framework_point(i) for i in p]
 
-    # resize canvas to fit line intersections
-    from geocomp.common.guicontrol import gui
-    gui.config_canvas(*get_canvas_sides(P))
     control.sleep()
     control.freeze_update()
 
