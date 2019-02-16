@@ -264,4 +264,4 @@ def partition_and_run(p):
     line = ham_sandwich(P1, P2)
     plot_points(P1,'red')
     plot_points(P2,'blue')
-    control.plot_line(0, line(0), 1, line(1), 'green')
+    control.plot_line(0, line(0), 100000, line(100000), 'green')
