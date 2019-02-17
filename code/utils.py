@@ -112,6 +112,18 @@ def max_intersections(G):
 def new_interval(G1, G2, p1, p2, T):
     "retorna um novo intervalo com a propriedade de intersecção ímpar e se a quantidade de retas é pequena o suficiente para um testa tudo"
 
+    ids = [None, None]
+
+    def draw_interval(should_plot = True):
+        control.thaw_update()
+        for i in range(2):
+            if not ids[i] == None:
+                control.plot_delete(ids[i])
+            if T[i] != -inf and T[i] != +inf and should_plot:
+                ids[i] = control.plot_vert_line(T[i], 'yellow')
+        control.sleep()
+        control.freeze_update()
+
     cur_intersections, random_inversion = intersections(G1, T)
     is_base = (max_intersections(G1) <= 32)
     while 32 * cur_intersections > max_intersections(G1) and not is_base:
@@ -121,6 +133,8 @@ def new_interval(G1, G2, p1, p2, T):
         else:
             T = (x, T[1])
         cur_intersections, random_inversion = intersections(G1, T)
+        draw_interval()
+    draw_interval(False)
     return T, is_base
 
 def new_trapezoid(G, p, T):
