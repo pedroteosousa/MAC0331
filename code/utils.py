@@ -1,6 +1,6 @@
 import functools
 from .basic import Point, Line
-from random import randint
+from random import randint, seed
 from math import inf
 
 from geocomp.common import control
@@ -250,6 +250,7 @@ def get_canvas_sides(P):
     return [C[0] - difx, C[1] + difx, C[2] - dify, C[3] + dify]
 
 def partition_and_run(p):
+    seed(0)
     P = [Point.from_framework_point(i) for i in p]
 
     # resize canvas to fit line intersections
