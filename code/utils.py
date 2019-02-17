@@ -198,8 +198,19 @@ def recursive_ham_sandwich(G1, G2, p1, p2, T):
         return valid_answers
 
     t = new_trapezoid(G1, p1, T)
+    t_ids = []
+    control.freeze_update()
+    for i in range(4):
+        j = (i + 1) % 4
+        t_ids.append(control.plot_segment(t[i].x, t[i].y, t[j].x, t[j].y, 'yellow'))
+    control.sleep()
+    control.thaw_update()
+
     G1, p1 = discard_lines(G1, p1, t)
     G2, p2 = discard_lines(G2, p2, t)
+
+    for id in t_ids:
+        control.plot_delete(id)
 
     return recursive_ham_sandwich(G1, G2, p1, p2, T)
 
