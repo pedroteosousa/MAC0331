@@ -272,7 +272,10 @@ def get_canvas_sides(P):
     perc = 0.02
     difx = (C[1] - C[0]) * perc
     dify = (C[3] - C[2]) * perc
-    return [C[0] - difx, C[1] + difx, C[2] - dify, C[3] + dify]
+    max_coord = 2
+    resize = 5
+    new = max_coord * resize
+    return [max(C[0] - difx, -new), min(C[1] + difx, new), max(C[2] - dify, -new), min(C[3] + dify, new)]
 
 def partition_and_run(p):
     seed(0)
