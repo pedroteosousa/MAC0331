@@ -1,4 +1,5 @@
 from math import inf
+from geocomp.common import prim
 
 epsilon = 1e-3
 
@@ -24,6 +25,7 @@ class Point:
 
     def above (self, l):
         "Verifica se o ponto está acima da reta"
+        prim.dist2(self,self)
         return self.y > l.m * self.x + l.b - epsilon
 
     def above_in (self, l):
