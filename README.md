@@ -1,5 +1,4 @@
 # MAC0331 - Ham Sandwich
-[![Build Status](https://travis-ci.org/pedroteosousa/MAC0331.svg?branch=master)](https://travis-ci.org/pedroteosousa/MAC0331)
 
 Trabalho de Geometria Computacional
 
