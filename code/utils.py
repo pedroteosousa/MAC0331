@@ -5,6 +5,7 @@ from math import inf
 
 from geocomp.common import control
 from geocomp.common.guiprim import *
+from geocomp.common.point import Point as pt
 
 def intersections(G, T):
     "Número de intersecções e uma intersecção aleatória no intervalo T em O(n log n)"
@@ -175,7 +176,7 @@ def discard_lines(G, p, t):
         elif is_under:
             b += 1
         if (is_under or is_above):
-            delete_lines([l])
+            delete_stuff([l])
         control.plot_delete(new_plot_id)
         control.sleep()
         control.thaw_update()
@@ -194,8 +195,7 @@ def recursive_ham_sandwich(G1, G2, p1, p2, T):
                 p = g.intersect(h)
                 if p and isinstance(p.dual(), Line):
                     valid_answers.append(p.dual())
-        delete_lines(G1+G2)
-        return valid_answers
+        return valid_answers, G1+G2
 
     t = new_trapezoid(G1, p1, T)
     t_ids = []
@@ -217,9 +217,16 @@ def recursive_ham_sandwich(G1, G2, p1, p2, T):
 def ham_sandwich(P1, P2):
     G1 = points_to_lines(P1, 'red')
     G2 = points_to_lines(P2, 'blue')
-    valid_answers = recursive_ham_sandwich(G1, G2, len(G1)//2, len(G2)//2, (-inf, inf))
+    valid_answers, missing_lines = recursive_ham_sandwich(G1, G2, len(G1)//2, len(G2)//2, (-inf, inf))
     for l in valid_answers:
         if verify_solution(P1, P2, l):
+            control.freeze_update()
+            p = l.dual()
+            p.tk = pt(p.x, p.y)
+            p.tk.plot('green')
+            control.sleep()
+            control.thaw_update()
+            delete_stuff(missing_lines + [p])
             return l
     return None
 
@@ -238,19 +245,21 @@ def points_to_lines(P, color):
         control.sleep()
     return G
 
-def delete_lines(G):
+def delete_stuff(stuff):
     control.freeze_update()
-    for g in G:
-        control.plot_delete(g.plot_id)
+    for s in stuff:
+        if isinstance(s, Line):
+            control.plot_delete(s.plot_id)
+        else:
+            s.tk.unplot()
     control.sleep()
-    control.thaw_update()
+    control.thaw_update
 
-def plot_points(P, color):
-    control.freeze_update()
-    for p in P:
-        p.tk.hilight(color)
-    control.sleep()
-    control.thaw_update()
+def plot_points(P1, P2):
+    for p in P1:
+        p.tk.hilight('red')
+    for p in P2:
+        p.tk.hilight('blue')
 
 def partition_and_run(p):
     seed(0)
@@ -260,6 +269,6 @@ def partition_and_run(p):
     P1, P2 = P[:half], P[half:]
 
     line = ham_sandwich(P1, P2)
-    plot_points(P1,'red')
-    plot_points(P2,'blue')
+    
+    plot_points(P1, P2)
     control.plot_line(0, line(0), 100000, line(100000), 'green')
