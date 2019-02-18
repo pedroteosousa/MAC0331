@@ -257,7 +257,7 @@ def partition_and_run(p):
     P = [Point.from_framework_point(i) for i in p]
 
     half = len(P) // 2
-    P1, P2 = P[:half+1], P[half+1:]
+    P1, P2 = P[:half], P[half:]
 
     line = ham_sandwich(P1, P2)
     plot_points(P1,'red')
