@@ -38,7 +38,7 @@ class Point:
 
     def under_in (self, l):
         "Verifica se o ponto está abaixo ou na reta"
-        return not self.above(l);
+        return self.under(l) or self in l
 
     def dual (self):
         "Reta referente ao dual do ponto em questão"
